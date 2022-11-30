@@ -39,30 +39,47 @@ def print_blockchain_elements():
     for block in blockchain:
         print('outputting block')
         print(block)
+    else: 
+        print('-' * 20)
 
 #this function will check the validity of the blockchain by comparing the current first element of the current chain against the entirety of the previous block. 
 def verify_chain():
-    block_index = 0
+    # block_index is used for the second version of this loop. 
+    # block_index = 0
     is_valid = True
 
-    for block in blockchain:
+    for block_index in range(len(blockchain)):
         if block_index == 0:
             block_index += 1
             continue
-        elif block[0] == blockchain[block_index - 1]:
+        elif blockchain[block_index][0] == blockchain[block_index - 1]:
             is_valid = True
         else:
             is_valid = False
             break
-        block_index += 1
+
+
+    # this is another wau to write the loop shown above
+    # for block in blockchain:
+    #     if block_index == 0:
+    #         block_index += 1
+    #         continue
+    #     elif block[0] == blockchain[block_index - 1]:
+    #         is_valid = True
+    #     else:
+    #         is_valid = False
+    #         break
+    #     block_index += 1
     return is_valid
 
 # Get the first transaction input and add the value to the blockchain
 tx_amount = get_transaction_value()
 add_transaction(tx_amount)
 
+waiting_for_input = True
+
 # user interface loop, while true the user is prompted to input either a new transaction value or print out the current blockchain 
-while True:
+while waiting_for_input:
     #options for the user
     print('Please Choose an option from below: \n')
     print('1: Add a new transaction value')
@@ -78,12 +95,13 @@ while True:
         add_transaction(tx_amount, get_last_blockchain_value())
     elif user_choice == '2':
         print_blockchain_elements()
+    # option 3 currently exists for testing the blockchain validation function.  
     elif user_choice == '3':
         if len(blockchain) >= 1:
             blockchain[0] = [2]
     elif user_choice == '0':
         print('Thank you for using Blockchain.py!')
-        break
+        waiting_for_input = False
     else: 
         print('Invalid input. Please choose an option from the list.')
     # verify the chain
@@ -94,4 +112,4 @@ while True:
     
     # Output the blockchain list to the console
     
-print('Done!')
+print('End of script')
